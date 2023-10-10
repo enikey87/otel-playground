@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "4317:4317" # OTEL gRPC
+      - "4318:4318" # OTEL gRPC via HTTP
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    networks:
+      - jaeger-net
+
+  nginx-proxy:
+    image: nginx:alpine
+    ports:
+      - "16686:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./htpasswd:/etc/nginx/htpasswd
+    depends_on:
+      - jaeger
+    networks:
+      - jaeger-net
+
+networks:
+  jaeger-net:
+    driver: bridge
