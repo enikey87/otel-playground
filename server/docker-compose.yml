@@ -8,7 +8,7 @@ services:
       - jaeger-net
 
   otel-collector:
-    image: otel/opentelemetry-collector:latest
+    image: otel/opentelemetry-collector-contrib:latest
     restart: always
     ports:
       - "4317:4317"   # OTLP gRPC receiver
@@ -17,6 +17,7 @@ services:
     command: ["--config=/etc/otel-collector-config.yaml"]
     volumes:
       - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+      - ./otel-collector-htpasswd:/etc/otel-collector-htpasswd
     networks:
       - jaeger-net
     depends_on:

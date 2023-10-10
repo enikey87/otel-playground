@@ -1,8 +1,18 @@
+extensions:
+  health_check:
+  basicauth/server:
+    htpasswd:
+      file: /etc/otel-collector-htpasswd
+
 receivers:
   otlp:
     protocols:
       grpc:
+        auth:
+          authenticator: basicauth/server
       http:
+        auth:
+          authenticator: basicauth/server
 
 exporters:
   otlp:
@@ -14,11 +24,9 @@ processors:
   batch:
 
 service:
+  extensions: [basicauth/server]
   pipelines:
     traces:
       receivers: [otlp]
       processors: [batch]
       exporters: [otlp]
-
-extensions:
-  health_check:
