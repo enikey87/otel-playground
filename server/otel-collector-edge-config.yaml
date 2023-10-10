@@ -1,22 +1,21 @@
 extensions:
   health_check:
-  basicauth/server:
-    htpasswd:
-      file: /etc/otel-collector-gateway-htpasswd
+  basicauth/client:
+    client_auth:
+      username: username
+      password: password
 
 receivers:
   otlp:
     protocols:
       grpc:
-#        auth:
-#          authenticator: basicauth/server
       http:
-#        auth:
-#          authenticator: basicauth/server
 
 exporters:
   otlp:
-    endpoint: jaeger:4317
+    endpoint: otel-collector-gateway:4317
+#    auth:
+#      authenticator: basicauth/client
     tls:
       insecure: true
 
@@ -24,7 +23,7 @@ processors:
   batch:
 
 service:
-  extensions: [basicauth/server]
+  extensions: [basicauth/client]
   pipelines:
     traces:
       receivers: [otlp]

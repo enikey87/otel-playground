@@ -10,10 +10,11 @@ services:
   otel-collector-gateway:
     image: otel/opentelemetry-collector-contrib:latest
     restart: always
-    ports:
-      - "4317:4317"   # OTLP gRPC receiver
-      - "4318:4318"   # OTLP gRPC receiver via HTTP
-      - "13133:13133" # health_check extension
+# Disable port because otel-collector-edge is now entrypoint for tracing
+#    ports:
+#      - "4317:4317"   # OTLP gRPC receiver
+#      - "4318:4318"   # OTLP gRPC receiver via HTTP
+#      - "13133:13133" # health_check extension
     command: ["--config=/etc/otel-collector-gateway-config.yaml"]
     volumes:
       - ./otel-collector-gateway-config.yaml:/etc/otel-collector-gateway-config.yaml
@@ -22,6 +23,21 @@ services:
       - jaeger-net
     depends_on:
       - jaeger
+
+  otel-collector-edge:
+    image: otel/opentelemetry-collector-contrib:latest
+    restart: always
+    ports:
+      - "4317:4317"   # OTLP gRPC receiver
+      - "4318:4318"   # OTLP gRPC receiver via HTTP
+      - "13133:13133" # health_check extension
+    command: ["--config=/etc/otel-collector-edge-config.yaml"]
+    volumes:
+      - ./otel-collector-edge-config.yaml:/etc/otel-collector-edge-config.yaml
+    networks:
+      - jaeger-net
+    depends_on:
+      - otel-collector-gateway
 
   nginx-proxy:
     image: nginx:alpine
