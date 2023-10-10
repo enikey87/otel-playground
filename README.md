@@ -1,6 +1,11 @@
 # otel-playground
 Simple OTEL service set example  with HTTP basic auth for Jaeger UI and Open Telemetry Collector.
 
+**Passwords**
+
+- Jaeger UI: user:adikadik
+- Open Telemetry Collector gateway: otel-collector-edge:adidas
+
 **Self-signed keys for TLS (insecure)**
 
 TLS is required by client side of OTEL basic auth extension. So we have to turn it on. In local environment we could use following insecure exteremely dangerous (you've got the idea) snippet or do all your black magic with certs by yourself.

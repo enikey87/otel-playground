@@ -2,8 +2,8 @@ extensions:
   health_check:
   basicauth/client:
     client_auth:
-      username: username
-      password: password
+      username: otel-collector-edge
+      password: adidas
 
 receivers:
   otlp:
@@ -14,8 +14,8 @@ receivers:
 exporters:
   otlp:
     endpoint: otel-collector-gateway:4317
-#    auth:
-#      authenticator: basicauth/client
+    auth:
+      authenticator: basicauth/client
     tls:
       cert_file: /etc/ssl/cert.pem
       key_file: /etc/ssl/key.pem
