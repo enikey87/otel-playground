@@ -19,3 +19,6 @@ service:
       receivers: [otlp]
       processors: [batch]
       exporters: [otlp]
+
+extensions:
+  health_check:

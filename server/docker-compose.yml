@@ -3,14 +3,17 @@ version: '3'
 services:
   jaeger:
     image: jaegertracing/all-in-one:latest
+    restart: always
     networks:
       - jaeger-net
 
   otel-collector:
     image: otel/opentelemetry-collector:latest
+    restart: always
     ports:
-      - "4317:4317" # OTLP gRPC
-      - "4318:4318" # OTLP gRPC via HTTP
+      - "4317:4317"   # OTLP gRPC receiver
+      - "4318:4318"   # OTLP gRPC receiver via HTTP
+      - "13133:13133" # health_check extension
     command: ["--config=/etc/otel-collector-config.yaml"]
     volumes:
       - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
@@ -21,6 +24,7 @@ services:
 
   nginx-proxy:
     image: nginx:alpine
+    restart: always
     ports:
       - "16686:80"
     volumes:
