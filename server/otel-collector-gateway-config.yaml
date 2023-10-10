@@ -2,7 +2,7 @@ extensions:
   health_check:
   basicauth/server:
     htpasswd:
-      file: /etc/otel-collector-htpasswd
+      file: /etc/otel-collector-gateway-htpasswd
 
 receivers:
   otlp:
