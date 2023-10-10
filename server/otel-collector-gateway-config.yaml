@@ -8,9 +8,17 @@ receivers:
   otlp:
     protocols:
       grpc:
+        tls:
+          cert_file: /etc/ssl/cert.pem
+          key_file: /etc/ssl/key.pem
+
 #        auth:
 #          authenticator: basicauth/server
       http:
+        tls:
+          cert_file: /etc/ssl/cert.pem
+          key_file: /etc/ssl/key.pem
+
 #        auth:
 #          authenticator: basicauth/server
 

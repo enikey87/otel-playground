@@ -19,6 +19,7 @@ services:
     volumes:
       - ./otel-collector-gateway-config.yaml:/etc/otel-collector-gateway-config.yaml
       - ./otel-collector-gateway-htpasswd:/etc/otel-collector-gateway-htpasswd
+      - ./ssl:/etc/ssl
     networks:
       - jaeger-net
     depends_on:
@@ -34,6 +35,7 @@ services:
     command: ["--config=/etc/otel-collector-edge-config.yaml"]
     volumes:
       - ./otel-collector-edge-config.yaml:/etc/otel-collector-edge-config.yaml
+      - ./ssl:/etc/ssl
     networks:
       - jaeger-net
     depends_on:
