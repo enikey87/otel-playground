@@ -5,7 +5,6 @@ extensions:
       username: ${env:COLLECTOR_GATEWAY_USER}
       password: ${env:COLLECTOR_GATEWAY_PASSWORD}
   bearertokenauth:
-    scheme: "Bearer"
     token: ${env:COLLECTOR_GATEWAY_TOKEN}
 
 receivers:

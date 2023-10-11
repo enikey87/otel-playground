@@ -4,7 +4,6 @@ extensions:
     htpasswd:
       file: /etc/otel-collector-gateway-htpasswd
   bearertokenauth:
-    scheme: "Bearer"
     token: ${env:COLLECTOR_GATEWAY_TOKEN}
 
 receivers:
