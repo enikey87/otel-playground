@@ -4,6 +4,9 @@ extensions:
     client_auth:
       username: ${env:COLLECTOR_GATEWAY_USER}
       password: ${env:COLLECTOR_GATEWAY_PASSWORD}
+  bearertokenauth:
+    scheme: "Bearer"
+    token: ${env:COLLECTOR_GATEWAY_TOKEN}
 
 receivers:
   otlp:
@@ -15,7 +18,8 @@ exporters:
   otlp:
     endpoint: otel-collector-gateway:4317
     auth:
-      authenticator: basicauth/client
+#      authenticator: basicauth/client
+      authenticator: bearertokenauth
     tls:
       cert_file: /etc/ssl/cert.pem
       key_file: /etc/ssl/key.pem
@@ -26,7 +30,7 @@ processors:
   batch:
 
 service:
-  extensions: [basicauth/client]
+  extensions: [basicauth/client, bearertokenauth]
   pipelines:
     traces:
       receivers: [otlp]

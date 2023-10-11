@@ -25,6 +25,8 @@ services:
 #      - "4318:4318"   # OTLP gRPC receiver over HTTP/1.1
 #      - "13133:13133" # health_check extension
     command: ["--config=/etc/otel-collector-gateway-config.yaml"]
+    env_file:
+      - secrets/otel-collector-gateway.env
     volumes:
       - ./etc/otel-collector-gateway-config.yaml:/etc/otel-collector-gateway-config.yaml
       - ./etc/otel-collector-gateway-htpasswd:/etc/otel-collector-gateway-htpasswd
@@ -45,3 +47,5 @@ services:
     volumes:
       - ./etc/otel-collector-edge-config.yaml:/etc/otel-collector-edge-config.yaml
       - ./ssl:/etc/ssl
+    depends_on:
+      - otel-collector-gateway

@@ -3,6 +3,9 @@ extensions:
   basicauth/server:
     htpasswd:
       file: /etc/otel-collector-gateway-htpasswd
+  bearertokenauth:
+    scheme: "Bearer"
+    token: ${env:COLLECTOR_GATEWAY_TOKEN}
 
 receivers:
   otlp:
@@ -12,13 +15,15 @@ receivers:
           cert_file: /etc/ssl/cert.pem
           key_file: /etc/ssl/key.pem
         auth:
-          authenticator: basicauth/server
+          authenticator: bearertokenauth
+#          authenticator: basicauth/server
       http:
         tls:
           cert_file: /etc/ssl/cert.pem
           key_file: /etc/ssl/key.pem
         auth:
-          authenticator: basicauth/server
+          authenticator: bearertokenauth
+#          authenticator: basicauth/server
 
 exporters:
   otlp:
@@ -30,7 +35,7 @@ processors:
   batch:
 
 service:
-  extensions: [basicauth/server]
+  extensions: [basicauth/server, bearertokenauth]
   pipelines:
     traces:
       receivers: [otlp]
