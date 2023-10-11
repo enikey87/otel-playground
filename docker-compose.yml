@@ -35,6 +35,9 @@ services:
   otel-collector-edge:
     image: otel/opentelemetry-collector-contrib:latest
     restart: always
+    environment:
+      - COLLECTOR_GATEWAY_USER=${COLLECTOR_GATEWAY_USER:-otel-collector-edge}
+      - COLLECTOR_GATEWAY_PASSWORD=${COLLECTOR_GATEWAY_PASSWORD:-adidas}
     ports:
       - "4317:4317"   # OTLP gRPC receiver
       - "4318:4318"   # OTLP gRPC receiver via HTTP

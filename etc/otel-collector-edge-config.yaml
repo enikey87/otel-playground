@@ -2,8 +2,8 @@ extensions:
   health_check:
   basicauth/client:
     client_auth:
-      username: otel-collector-edge
-      password: adidas
+      username: ${env:COLLECTOR_GATEWAY_USER}
+      password: ${env:COLLECTOR_GATEWAY_PASSWORD}
 
 receivers:
   otlp:
