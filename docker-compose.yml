@@ -21,8 +21,8 @@ services:
     restart: always
 # Disable port because otel-collector-edge is now entrypoint for tracing
 #    ports:
-#      - "4317:4317"   # OTLP gRPC receiver
-#      - "4318:4318"   # OTLP gRPC receiver via HTTP
+#      - "4317:4317"   # OTLP gRPC receiver over HTTP/2
+#      - "4318:4318"   # OTLP gRPC receiver over HTTP/1.1
 #      - "13133:13133" # health_check extension
     command: ["--config=/etc/otel-collector-gateway-config.yaml"]
     volumes:
@@ -38,8 +38,8 @@ services:
     env_file:
       - secrets/otel-collector-edge.env
     ports:
-      - "4317:4317"   # OTLP gRPC receiver
-      - "4318:4318"   # OTLP gRPC receiver via HTTP
+      - "4317:4317"   # OTLP gRPC receiver over HTTP/2
+      - "4318:4318"   # OTLP gRPC receiver over HTTP/1.1
       - "13133:13133" # health_check extension
     command: ["--config=/etc/otel-collector-edge-config.yaml"]
     volumes:
