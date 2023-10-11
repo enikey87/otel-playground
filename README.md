@@ -8,10 +8,20 @@ Services:
 - Open Telemetry Collector Gateway. Requires TLS + Auth for incoming telemetry. Exports incoming telemetry to Jaeger.
 - Open Telemetry Collector Sidecar. Exports incoming telemetry to Collector Gateway. Don't require TLS or Auth for incoming data because it's running in trusted closed network like localhost.   
 
+**Getting started**
+
+```shell
+docker-compose up
+```
+
+Now you can send telemetry to localhost using OTLP protocol with TLS and basic auth.
+
 **Credentials**
 
-- Jaeger UI: user:adidas
-- Open Telemetry Collector gateway: otel-collector-edge:adidas
+- [Jaeger UI](https://localhost:16686): user:adidas
+- Collector gateway (internal): otel-collector-edge:adidas
+- [Collector gateway health](https://localhost:16686/health): none
+- [Collector sidecar](http://localhost:4318): none
 
 **Self-signed keys for TLS (insecure)**
 
