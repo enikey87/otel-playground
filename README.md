@@ -1,9 +1,16 @@
 # otel-playground
-Simple OTEL service set example with HTTP basic auth for Jaeger UI and Open Telemetry Collector.
+
+Simple OTEL setup example with auth for Jaeger UI and Open Telemetry Collector.
+
+Services:
+- Jaeger in memory all in one. No ports exposed.
+- Jaeger-UI behind nginx with basic auth. Exposes 16686 port.
+- Open Telemetry Collector Gateway. Requires TLS + Auth for incoming telemetry. Exports incoming telemetry to Jaeger.
+- Open Telemetry Collector Sidecar (Edge). Exports incoming telemetry to Collector Gateway. Don't require TLS or Auth for incoming data because it's running in trusted closed network like localhost.   
 
 **Passwords**
 
-- Jaeger UI: user:adikadik
+- Jaeger UI: user:adidas
 - Open Telemetry Collector gateway: otel-collector-edge:adidas
 
 **Self-signed keys for TLS (insecure)**
@@ -25,6 +32,7 @@ chmod o+r key.pem
 
 - https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/examples/demo
 - https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/extension/basicauthextension
+- https://opentelemetry.io/ecosystem/registry/?component=extension
 - https://github.com/open-telemetry/opentelemetry-collector/blob/main/config/configtls/README.md
 - https://opentelemetry.io/blog/2022/otel-demo-app-nomad/
 - https://opentelemetry.io/blog/2022/k8s-otel-expose/
