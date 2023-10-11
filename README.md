@@ -8,7 +8,7 @@ Services:
 - Open Telemetry Collector Gateway. Requires TLS + Auth for incoming telemetry. Exports incoming telemetry to Jaeger.
 - Open Telemetry Collector Sidecar. Exports incoming telemetry to Collector Gateway. Don't require TLS or Auth for incoming data because it's running in trusted closed network like localhost.   
 
-**Passwords**
+**Credentials**
 
 - Jaeger UI: user:adidas
 - Open Telemetry Collector gateway: otel-collector-edge:adidas
