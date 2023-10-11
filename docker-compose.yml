@@ -1,5 +1,9 @@
 version: '3'
 
+secrets:
+  secret_ssl_key_file:
+    file: ssl/key.pem
+
 services:
   jaeger:
     image: jaegertracing/all-in-one:latest
@@ -33,6 +37,8 @@ services:
       - ./etc/otel-collector-gateway-config.yaml:/etc/otel-collector-gateway-config.yaml
       - ./etc/otel-collector-gateway-htpasswd:/etc/otel-collector-gateway-htpasswd
       - ./ssl:/etc/ssl
+    secrets:
+      - secret_ssl_key_file
     depends_on:
       - jaeger
 
@@ -49,5 +55,7 @@ services:
     volumes:
       - ./etc/otel-collector-sidecar-config.yaml:/etc/otel-collector-sidecar-config.yaml
       - ./ssl:/etc/ssl
+    secrets:
+      - secret_ssl_key_file
     depends_on:
       - otel-collector-gateway
