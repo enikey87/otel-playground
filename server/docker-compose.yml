@@ -4,8 +4,17 @@ services:
   jaeger:
     image: jaegertracing/all-in-one:latest
     restart: always
-    networks:
-      - jaeger-net
+
+  jaeger-ui-nginx-proxy:
+    image: nginx:alpine
+    restart: always
+    ports:
+      - "16686:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx-htpasswd:/etc/nginx/htpasswd
+    depends_on:
+      - jaeger
 
   otel-collector-gateway:
     image: otel/opentelemetry-collector-contrib:latest
@@ -20,8 +29,6 @@ services:
       - ./otel-collector-gateway-config.yaml:/etc/otel-collector-gateway-config.yaml
       - ./otel-collector-gateway-htpasswd:/etc/otel-collector-gateway-htpasswd
       - ./ssl:/etc/ssl
-    networks:
-      - jaeger-net
     depends_on:
       - jaeger
 
@@ -36,24 +43,3 @@ services:
     volumes:
       - ./otel-collector-edge-config.yaml:/etc/otel-collector-edge-config.yaml
       - ./ssl:/etc/ssl
-    networks:
-      - jaeger-net
-    depends_on:
-      - otel-collector-gateway
-
-  nginx-proxy:
-    image: nginx:alpine
-    restart: always
-    ports:
-      - "16686:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx-htpasswd:/etc/nginx/htpasswd
-    depends_on:
-      - jaeger
-    networks:
-      - jaeger-net
-
-networks:
-  jaeger-net:
-    driver: bridge
