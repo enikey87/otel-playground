@@ -1,5 +1,5 @@
 # otel-playground
-Simple OTEL service set example  with HTTP basic auth for Jaeger UI and Open Telemetry Collector.
+Simple OTEL service set example with HTTP basic auth for Jaeger UI and Open Telemetry Collector.
 
 **Passwords**
 
