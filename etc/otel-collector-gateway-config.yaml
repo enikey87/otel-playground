@@ -47,7 +47,7 @@ processors:
   batch:
 
 service:
-  extensions: [basicauth/server, bearertokenauth]
+  extensions: [health_check, basicauth/server, bearertokenauth]
   pipelines:
     traces:
       receivers: [otlp/withBasicAuth]
