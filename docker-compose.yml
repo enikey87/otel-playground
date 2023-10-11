@@ -34,18 +34,18 @@ services:
     depends_on:
       - jaeger
 
-  otel-collector-edge:
+  otel-collector-sidecar:
     image: otel/opentelemetry-collector-contrib:latest
     restart: always
     env_file:
-      - secrets/otel-collector-edge.env
+      - secrets/otel-collector-sidecar.env
     ports:
       - "4317:4317"   # OTLP gRPC receiver over HTTP/2
       - "4318:4318"   # OTLP gRPC receiver over HTTP/1.1
       - "13133:13133" # health_check extension
-    command: ["--config=/etc/otel-collector-edge-config.yaml"]
+    command: ["--config=/etc/otel-collector-sidecar-config.yaml"]
     volumes:
-      - ./etc/otel-collector-edge-config.yaml:/etc/otel-collector-edge-config.yaml
+      - ./etc/otel-collector-sidecar-config.yaml:/etc/otel-collector-sidecar-config.yaml
       - ./ssl:/etc/ssl
     depends_on:
       - otel-collector-gateway

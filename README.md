@@ -6,7 +6,7 @@ Services:
 - Jaeger in memory all in one. No ports exposed.
 - Jaeger-UI behind nginx with basic auth. Exposes 16686 port.
 - Open Telemetry Collector Gateway. Requires TLS + Auth for incoming telemetry. Exports incoming telemetry to Jaeger.
-- Open Telemetry Collector Sidecar (Edge). Exports incoming telemetry to Collector Gateway. Don't require TLS or Auth for incoming data because it's running in trusted closed network like localhost.   
+- Open Telemetry Collector Sidecar. Exports incoming telemetry to Collector Gateway. Don't require TLS or Auth for incoming data because it's running in trusted closed network like localhost.   
 
 **Passwords**
 
