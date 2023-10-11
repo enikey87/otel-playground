@@ -28,7 +28,6 @@ services:
 #    ports:
 #      - "4317:4317"   # OTLP gRPC receiver over HTTP/2
 #      - "4318:4318"   # OTLP gRPC receiver over HTTP/1.1
-#      - "13133:13133" # health_check extension
     command: ["--config=/etc/otel-collector-gateway-config.yaml"]
     env_file:
       - secrets/otel-collector-gateway.env
