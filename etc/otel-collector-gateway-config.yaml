@@ -50,6 +50,6 @@ service:
   extensions: [basicauth/server, bearertokenauth]
   pipelines:
     traces:
-      receivers: [otlp/withBearerAuth]
+      receivers: [otlp/withBasicAuth]
       processors: [batch]
       exporters: [otlp]
