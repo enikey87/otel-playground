@@ -11,14 +11,14 @@ receivers:
     protocols:
       grpc:
         tls:
-          cert_file: /etc/ssl/cert.pem
-          key_file: /etc/ssl/key.pem
+          cert_file: ${env:SSL_CERT_FILE}
+          key_file: ${env:SSL_KEY_FILE}
         auth:
           authenticator: bearertokenauth
       http:
         tls:
-          cert_file: /etc/ssl/cert.pem
-          key_file: /etc/ssl/key.pem
+          cert_file: ${env:SSL_CERT_FILE}
+          key_file: ${env:SSL_KEY_FILE}
         auth:
           authenticator: bearertokenauth
 
@@ -26,14 +26,14 @@ receivers:
     protocols:
       grpc:
         tls:
-          cert_file: /etc/ssl/cert.pem
-          key_file: /etc/ssl/key.pem
+          cert_file: ${env:SSL_CERT_FILE}
+          key_file: ${env:SSL_KEY_FILE}
         auth:
           authenticator: basicauth/server
       http:
         tls:
-          cert_file: /etc/ssl/cert.pem
-          key_file: /etc/ssl/key.pem
+          cert_file: ${env:SSL_CERT_FILE}
+          key_file: ${env:SSL_KEY_FILE}
         auth:
           authenticator: basicauth/server
 

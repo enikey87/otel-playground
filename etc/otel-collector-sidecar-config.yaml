@@ -19,8 +19,8 @@ exporters:
     auth:
       authenticator: bearertokenauth
     tls:
-      cert_file: /etc/ssl/cert.pem
-      key_file: /etc/ssl/key.pem
+      cert_file: ${env:SSL_CERT_FILE}
+      key_file:  ${env:SSL_KEY_FILE}
       # FIXME: Never ever do this in production. It's here only to simplify education.
       insecure_skip_verify: true # Don't verify certificate because it's self-signed
 
@@ -29,8 +29,8 @@ exporters:
     auth:
       authenticator: basicauth/client
     tls:
-      cert_file: /etc/ssl/cert.pem
-      key_file: /etc/ssl/key.pem
+      cert_file: ${env:SSL_CERT_FILE}
+      key_file:  ${env:SSL_KEY_FILE}
       # FIXME: Never ever do this in production. It's here only to simplify education.
       insecure_skip_verify: true # Don't verify certificate because it's self-signed
 

@@ -28,6 +28,7 @@ services:
     command: ["--config=/etc/otel-collector-gateway-config.yaml"]
     env_file:
       - secrets/otel-collector-gateway.env
+      - ssl/.env
     volumes:
       - ./etc/otel-collector-gateway-config.yaml:/etc/otel-collector-gateway-config.yaml
       - ./etc/otel-collector-gateway-htpasswd:/etc/otel-collector-gateway-htpasswd
@@ -40,6 +41,7 @@ services:
     restart: always
     env_file:
       - secrets/otel-collector-sidecar.env
+      - ssl/.env
     ports:
       - "4317:4317"   # OTLP gRPC receiver over HTTP/2
       - "4318:4318"   # OTLP gRPC receiver over HTTP/1.1
