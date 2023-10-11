@@ -15,11 +15,20 @@ receivers:
       http:
 
 exporters:
-  otlp:
+  otlp/withBearerAuth:
     endpoint: otel-collector-gateway:4317
     auth:
-#      authenticator: basicauth/client
       authenticator: bearertokenauth
+    tls:
+      cert_file: /etc/ssl/cert.pem
+      key_file: /etc/ssl/key.pem
+      # FIXME: Never ever do this in production. It's here only to simplify education.
+      insecure_skip_verify: true # Don't verify certificate because it's self-signed
+
+  otlp/withBasicAuth:
+    endpoint: otel-collector-gateway:4317
+    auth:
+      authenticator: basicauth/client
     tls:
       cert_file: /etc/ssl/cert.pem
       key_file: /etc/ssl/key.pem
@@ -35,4 +44,4 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [otlp]
+      exporters: [otlp/withBearerAuth]

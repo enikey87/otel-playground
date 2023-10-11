@@ -32,6 +32,7 @@ chmod o+r key.pem
 
 - https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/examples/demo
 - https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/extension/basicauthextension
+- https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/extension/bearertokenauthextension
 - https://opentelemetry.io/ecosystem/registry/?component=extension
 - https://github.com/open-telemetry/opentelemetry-collector/blob/main/config/configtls/README.md
 - https://opentelemetry.io/blog/2022/otel-demo-app-nomad/

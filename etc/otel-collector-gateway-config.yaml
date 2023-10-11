@@ -8,7 +8,7 @@ extensions:
     token: ${env:COLLECTOR_GATEWAY_TOKEN}
 
 receivers:
-  otlp:
+  otlp/withBearerAuth:
     protocols:
       grpc:
         tls:
@@ -16,14 +16,27 @@ receivers:
           key_file: /etc/ssl/key.pem
         auth:
           authenticator: bearertokenauth
-#          authenticator: basicauth/server
       http:
         tls:
           cert_file: /etc/ssl/cert.pem
           key_file: /etc/ssl/key.pem
         auth:
           authenticator: bearertokenauth
-#          authenticator: basicauth/server
+
+  otlp/withBasicAuth:
+    protocols:
+      grpc:
+        tls:
+          cert_file: /etc/ssl/cert.pem
+          key_file: /etc/ssl/key.pem
+        auth:
+          authenticator: basicauth/server
+      http:
+        tls:
+          cert_file: /etc/ssl/cert.pem
+          key_file: /etc/ssl/key.pem
+        auth:
+          authenticator: basicauth/server
 
 exporters:
   otlp:
@@ -38,6 +51,6 @@ service:
   extensions: [basicauth/server, bearertokenauth]
   pipelines:
     traces:
-      receivers: [otlp]
+      receivers: [otlp/withBearerAuth]
       processors: [batch]
       exporters: [otlp]
