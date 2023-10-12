@@ -14,7 +14,15 @@ Services:
 docker-compose up
 ```
 
-Now you can send telemetry to localhost using OTLP protocol with TLS and basic auth.
+Now you can send telemetry to sidecar running on localhost using OTLP protocol from your app or use tracegen utility:
+```shell
+sudo apt install golang-go
+go install github.com/open-telemetry/opentelemetry-collector-contrib/tracegen@latest
+# Generate traces for 5 seconds
+~/go/bin/tracegen -otlp-insecure -duration 5s
+# Or, to generate a specific number of traces
+~/go/bin/tracegen tracegen -otlp-insecure -traces 1
+```
 
 **Credentials**
 
