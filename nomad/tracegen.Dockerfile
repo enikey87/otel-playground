@@ -13,5 +13,8 @@ FROM alpine:latest
 # Copy the tracegen binary from the builder image.
 COPY --from=builder /go/bin/tracegen /usr/local/bin/tracegen
 
-# Set the command to run tracegen with the specified arguments when the container starts.
-CMD ["tracegen", "-otlp-insecure", "-traces", "1"]
+# Copy the entrypoint script.
+COPY files/tracegen/entrypoint.sh /entrypoint.sh
+
+# Use the entrypoint script to start the container.
+ENTRYPOINT ["/entrypoint.sh"]
