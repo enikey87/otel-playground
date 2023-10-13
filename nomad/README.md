@@ -15,8 +15,7 @@ docker-compose up
 ```
 Build the Docker image
 ```shell
-cd tracegen
-docker build -t gorecode/tracegen-job .
+docker build -t gorecode/tracegen-job -f tracegen.Dockerfile .
 ```
 
 Test the Docker image
