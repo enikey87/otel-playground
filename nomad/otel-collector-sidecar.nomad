@@ -33,19 +33,18 @@ job "otel-collector-sidecar" {
         data        = file("files/otel/collector-sidecar-config.yaml")
         destination = "local/otel/collector-sidecar-config.yaml"
       }
-#
-#      service {
-#        name = "otel-collector-sidecar"
-#        port = "gRPC1"
-#        provider = "nomad"
-#
-#        check {
-#          name = "host-check"
-#          type = "tcp"
-#          interval = "600s"
-#          timeout = "10s"
-#        }
-#      }
+
+      service {
+        name = "otel-collector-sidecar-gRPC1"
+        port = "gRPC1"
+        provider = "nomad"
+      }
+
+      service {
+        name = "otel-collector-sidecar-gRPC2"
+        port = "gRPC2"
+        provider = "nomad"
+      }
     } // task
   } // group
 } // job
