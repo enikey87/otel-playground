@@ -1,7 +1,21 @@
 ### Nomad cluster on localhost
-Start a Nomad agent in developer mode and bind it to localhost
+Start a Nomad agent in developer mode
 ```shell
-sudo nomad agent -dev -bind 127.0.0.1
+sudo nomad agent -dev -bind 0.0.0.0 -network-interface='{{ GetDefaultInterfaces | attr "name" }}'
+
+# Caution: Avoid binding to 127.0.0.1 in container environments. 
+# 'localhost' inside a container points to the container itself, not the host.
+#
+# Don't use this:
+# sudo nomad agent -dev -bind 127.0.0.1
+# sudo nomad agent -dev
+```
+
+### Collector sidecar
+
+Start a Open Telemetry sidecar service.
+```shell
+nomad job run otel-collector-sidecar.nomad
 ```
 
 ### Tracegen job
@@ -30,6 +44,16 @@ Run the Docker image as Nomad job
 nomad job run tracegen.nomad
 ```
 
-### Papers
+### Nomad
 
+- Tasks within a Group run together on the same machine.
+- `local` path is filesystem that nomad creates for a task.
+
+#### Videos
+
+- [Open Telemetry demo (compose) to nomad](https://www.youtube.com/watch?v=Egk5L2AM-28)
+
+#### Papers
+
+- https://www.hashicorp.com/blog/a-kubernetes-user-s-guide-to-hashicorp-nomad
 - https://www.hashicorp.com/blog/nomad-service-discovery
