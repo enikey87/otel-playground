@@ -14,4 +14,4 @@ FROM alpine:latest
 COPY --from=builder /go/bin/tracegen /usr/local/bin/tracegen
 
 # Set the command to run tracegen with the specified arguments when the container starts.
-CMD ["tracegen", "-otlp-insecure", "-duration", "5s"]
+CMD ["tracegen", "-otlp-insecure", "-traces", "1"]
