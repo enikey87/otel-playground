@@ -48,6 +48,8 @@ nomad job run tracegen.nomad
 
 - Tasks within a Group run together on the same machine.
 - `local` path is filesystem that nomad creates for a task.
+- Nomad’s default network is the Node network (physical network that your nodes are connected to). Each task group instance uses the Node IP network and gets its own port through dynamic port assignment. Since there is no Virtual IP or an additional overlay network required, the Nomad cluster network can be part of an existing enterprise network.
+
 
 #### Videos
 
