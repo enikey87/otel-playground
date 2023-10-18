@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Set default command arguments
-CMD_ARGS="tracegen -otlp-insecure -traces 1"
+CMD_ARGS="tracegen -otlp-insecure -traces 10"
 
 # If the OTEL_EXPORTER_OTLP_ENDPOINT environment variable is set, add the -otlp-endpoint flag
 if [ -n "$OTEL_EXPORTER_OTLP_ENDPOINT" ]; then
