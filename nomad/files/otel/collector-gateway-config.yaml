@@ -1,17 +1,25 @@
 extensions:
   health_check:
+  basicauth/server:
+    htpasswd:
+      file: /etc/otel-collector-gateway-htpasswd
 
 receivers:
-  otlp:
+  otlp/basicAuth:
     protocols:
       grpc:
         tls:
           cert_file: /etc/ssl/cert.pem
           key_file: /etc/ssl/key.pem
+        auth:
+          authenticator: basicauth/server
+
       http:
         tls:
           cert_file: /etc/ssl/cert.pem
           key_file: /etc/ssl/key.pem
+        auth:
+          authenticator: basicauth/server
 
 exporters:
   logging:
@@ -26,9 +34,9 @@ processors:
   batch:
 
 service:
-  extensions: [health_check]
+  extensions: [health_check, basicauth/server]
   pipelines:
     traces:
-      receivers: [otlp]
+      receivers: [otlp/basicAuth]
       processors: [batch]
       exporters: [logging, otlp/jaeger]

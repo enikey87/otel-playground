@@ -1,3 +1,11 @@
+extensions:
+  health_check:
+  basicauth/client:
+    # FIXME: store it in Vault
+    client_auth:
+      username: otel-collector-edge
+      password: adidas
+
 receivers:
   otlp:
     protocols:
@@ -7,6 +15,8 @@ receivers:
 exporters:
   logging:
   otlp:
+    auth:
+      authenticator: basicauth/client
     tls:
       # FIXME: Never ever do this in production. It's here only to simplify education.
       insecure_skip_verify: true # Don't verify certificate because it's self-signed
@@ -18,6 +28,7 @@ processors:
   batch:
 
 service:
+  extensions: [basicauth/client]
   pipelines:
     traces:
       receivers: [otlp]

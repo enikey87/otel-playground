@@ -113,6 +113,7 @@ job "tracing-backend" {
         args    = ["--config=/etc/collector-gateway-config.yaml"]
         volumes = [
           "local/otel/collector-gateway-config.yaml:/etc/collector-gateway-config.yaml",
+          "local/otel-collector-gateway-htpasswd:/etc/otel-collector-gateway-htpasswd",
           "local/cert.pem:/etc/ssl/cert.pem",
           "local/key.pem:/etc/ssl/key.pem",
         ]
@@ -125,6 +126,10 @@ job "tracing-backend" {
       template {
         data        = file("../ssl/cert.pem")
         destination = "local/cert.pem"
+      }
+      template {
+        data        = file("../etc/otel-collector-gateway-htpasswd")
+        destination = "local/otel-collector-gateway-htpasswd"
       }
       template {
         data        = file("../ssl/key.pem")
