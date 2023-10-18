@@ -36,6 +36,7 @@ job "tracing-backend" {
     }
   }
 
+  // FIXME: can't figure out how to bind OTEL collector to jaeger in single group because they have conflicting ports
   group "otel-backend" {
     count = 1
 
