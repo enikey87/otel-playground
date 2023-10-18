@@ -1,14 +1,39 @@
-job "otel-backend" {
+job "tracing-backend" {
   datacenters = ["dc1"]
   namespace = "default"
   type = "service"
+
+  group "jaeger-backend" {
+    count = 1
+
+    network {
+      port "gRPC2" {
+        to = 4317
+      }
+      port "jaeger-ui" {
+        to = 16686
+      }
+    }
+
+    task "jaeger" {
+      driver = "docker"
+
+      config {
+        image = "jaegertracing/all-in-one:latest"
+        ports = ["gRPC2", "jaeger-ui"]
+      }
+
+      resources {
+        cpu    = 1000
+        memory = 2048
+      }
+    }
+  }
 
   group "otel-backend" {
     count = 1
 
     network {
-      mode = "host"
-
       port "gRPC1" {
         to = 4318
       }
@@ -42,6 +67,11 @@ job "otel-backend" {
         name = "otel-collector-gateway-gRPC2"
         port = "gRPC2"
         provider = "nomad"
+      }
+
+      resources {
+        cpu    = 1000
+        memory = 512
       }
     } // task
   } // group
