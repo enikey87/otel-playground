@@ -3,7 +3,7 @@ job "tracing-backend" {
   namespace = "default"
   type = "service"
 
-  group "jaeger-backend" {
+  group "jaeger" {
     count = 1
 
     network {
@@ -15,12 +15,18 @@ job "tracing-backend" {
       }
     }
 
-    task "jaeger" {
+    task "jaeger-all-in-one" {
       driver = "docker"
 
       config {
         image = "jaegertracing/all-in-one:latest"
         ports = ["gRPC2", "jaeger-ui"]
+      }
+
+      service {
+        name = "jaeger-backend-gRPC2"
+        port = "gRPC2"
+        provider = "nomad"
       }
 
       resources {

@@ -6,6 +6,12 @@ receivers:
 
 exporters:
   logging:
+  otlp/jaeger:
+{{ range nomadService "jaeger-backend-gRPC2" }}
+    endpoint: {{ .Address }}:{{ .Port }}
+{{ end }}
+    tls:
+      insecure: true
 
 processors:
   batch:
@@ -15,4 +21,4 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [logging]
+      exporters: [logging, otlp/jaeger]
