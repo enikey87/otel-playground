@@ -24,9 +24,7 @@ receivers:
 exporters:
   logging:
   otlp/jaeger:
-{{ range nomadService "jaeger-backend-gRPC2" }}
-    endpoint: {{ .Address }}:{{ .Port }}
-{{ end }}
+    endpoint: {{ env "NOMAD_ADDR_gRPC2" }}
     tls:
       insecure: true
 

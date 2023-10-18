@@ -3,7 +3,7 @@ job "tracing-backend" {
   namespace   = "default"
   type        = "service"
 
-  group "jaeger" {
+  group "tracing-backend" {
     count = 1
 
     network {
@@ -15,6 +15,15 @@ job "tracing-backend" {
       }
       port "jaeger_ui_gateway" {
         to = 443
+      }
+      port "otel-collector-gateway-gRPC1" {
+        to = 4318
+      }
+      port "otel-collector-gateway-gRPC2" {
+        to = 4317
+      }
+      port "otel-collector-gateway-health" {
+        to = 13133
       }
     }
 
@@ -85,31 +94,18 @@ job "tracing-backend" {
         cpu    = 1000
         memory = 256
       }
-    }
-  }
-
-  // FIXME: can't figure out how to bind OTEL collector to jaeger in single group because they have conflicting ports
-  group "otel-backend" {
-    count = 1
-
-    network {
-      port "gRPC1" {
-        to = 4318
-      }
-      port "gRPC2" {
-        to = 4317
-      }
-      port "health" {
-        to = 13133
-      }
-    }
+    } // task
 
     task "otel-collector-gateway" {
       driver = "docker"
 
       config {
         image   = "otel/opentelemetry-collector-contrib:latest"
-        ports   = ["gRPC1", "gRPC2", "health"]
+        ports   = [
+          "otel-collector-gateway-gRPC1",
+          "otel-collector-gateway-gRPC2",
+          "otel-collector-gateway-health"
+        ]
         args    = ["--config=/etc/collector-gateway-config.yaml"]
         volumes = [
           "local/otel/collector-gateway-config.yaml:/etc/collector-gateway-config.yaml",
@@ -138,19 +134,19 @@ job "tracing-backend" {
 
       service {
         name = "otel-collector-gateway-gRPC1"
-        port = "gRPC1"
+        port = "otel-collector-gateway-gRPC1"
         provider = "nomad"
       }
 
       service {
         name = "otel-collector-gateway-gRPC2"
-        port = "gRPC2"
+        port = "otel-collector-gateway-gRPC2"
         provider = "nomad"
       }
 
       service {
         name = "otel-collector-gateway-health"
-        port = "health"
+        port = "otel-collector-gateway-health"
         provider = "nomad"
       }
 
