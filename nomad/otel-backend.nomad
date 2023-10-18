@@ -7,13 +7,13 @@ job "tracing-backend" {
     count = 1
 
     network {
-      port "gRPC2" {
+      port "jaeger-gRPC2" {
         to = 4317
       }
-      port "jaeger_ui" {
+      port "jaeger-ui" {
         to = 16686
       }
-      port "jaeger_ui_gateway" {
+      port "jaeger-ui-gateway" {
         to = 443
       }
       port "otel-collector-gateway-gRPC1" {
@@ -32,18 +32,18 @@ job "tracing-backend" {
 
       config {
         image = "jaegertracing/all-in-one:latest"
-        ports = ["gRPC2", "jaeger_ui"]
+        ports = ["jaeger-gRPC2", "jaeger-ui"]
       }
 
       service {
-        name     = "jaeger-backend-gRPC2"
-        port     = "gRPC2"
+        name     = "jaeger-gRPC2"
+        port     = "jaeger-gRPC2"
         provider = "nomad"
       }
 
       service {
         name     = "jaeger-ui"
-        port     = "jaeger_ui"
+        port     = "jaeger-ui"
         provider = "nomad"
       }
 
@@ -58,7 +58,7 @@ job "tracing-backend" {
 
       config {
         image = "nginx:alpine"
-        ports = ["jaeger_ui_gateway"]
+        ports = ["jaeger-ui-gateway"]
         volumes = [
           "local/nginx.conf:/etc/nginx/nginx.conf",
           "local/nginx-htpasswd:/etc/nginx/htpasswd",
@@ -69,7 +69,7 @@ job "tracing-backend" {
 
       service {
         name     = "jaeger-ui-gateway"
-        port     = "jaeger_ui_gateway"
+        port     = "jaeger-ui-gateway"
         provider = "nomad"
       }
 

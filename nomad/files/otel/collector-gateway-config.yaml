@@ -24,7 +24,7 @@ receivers:
 exporters:
   logging:
   otlp/jaeger:
-    endpoint: {{ env "NOMAD_ADDR_gRPC2" }}
+    endpoint: {{ env "NOMAD_ADDR_jaeger_gRPC2" }}
     tls:
       insecure: true
 
