@@ -14,7 +14,7 @@ job "tracing-backend" {
         to = 16686
       }
       port "jaeger_ui_gateway" {
-        to = 80
+        to = 443
       }
     }
 
@@ -53,6 +53,8 @@ job "tracing-backend" {
         volumes = [
           "local/nginx.conf:/etc/nginx/nginx.conf",
           "local/nginx-htpasswd:/etc/nginx/htpasswd",
+          "local/cert.pem:/etc/ssl/cert.pem",
+          "local/key.pem:/etc/ssl/key.pem",
         ]
       }
 
@@ -62,6 +64,14 @@ job "tracing-backend" {
         provider = "nomad"
       }
 
+      template {
+        data        = file("../ssl/cert.pem")
+        destination = "local/cert.pem"
+      }
+      template {
+        data        = file("../ssl/key.pem")
+        destination = "local/key.pem"
+      }
       template {
         data        = file("files/jaeger/nginx.conf")
         destination = "local/nginx.conf"
