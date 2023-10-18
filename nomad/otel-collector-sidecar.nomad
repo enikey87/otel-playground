@@ -1,7 +1,7 @@
 job "otel-collector-sidecar" {
   datacenters = ["dc1"]
   namespace = "default"
-  type = "service"
+  type = "system"
 
   group "otel-collector-sidecar" {
     count = 1
@@ -10,11 +10,9 @@ job "otel-collector-sidecar" {
       mode = "host"
 
       port "gRPC1" {
-        to = 4318
         static = 4318
       }
       port "gRPC2" {
-        to = 4317
         static = 4317
       }
     }
