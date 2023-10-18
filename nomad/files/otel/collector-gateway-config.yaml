@@ -1,3 +1,6 @@
+extensions:
+  health_check:
+
 receivers:
   otlp:
     protocols:
@@ -17,6 +20,7 @@ processors:
   batch:
 
 service:
+  extensions: [health_check]
   pipelines:
     traces:
       receivers: [otlp]

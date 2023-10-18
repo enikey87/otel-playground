@@ -89,6 +89,9 @@ job "tracing-backend" {
       port "gRPC2" {
         to = 4317
       }
+      port "health" {
+        to = 13133
+      }
     }
 
     task "otel-collector-gateway" {
@@ -96,7 +99,7 @@ job "tracing-backend" {
 
       config {
         image   = "otel/opentelemetry-collector-contrib:latest"
-        ports   = ["gRPC1", "gRPC2"]
+        ports   = ["gRPC1", "gRPC2", "health"]
         args    = ["--config=/etc/collector-gateway-config.yaml"]
         volumes = ["local/otel/collector-gateway-config.yaml:/etc/collector-gateway-config.yaml"]
       }
