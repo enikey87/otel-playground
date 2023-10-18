@@ -6,6 +6,12 @@ receivers:
 
 exporters:
   logging:
+  otlp:
+    tls:
+      insecure: true
+{{ range nomadService "otel-collector-gateway-gRPC2" }}
+    endpoint: {{ .Address }}:{{ .Port }}
+{{ end }}
 
 processors:
   batch:
@@ -15,4 +21,4 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [logging]
+      exporters: [otlp, logging]
