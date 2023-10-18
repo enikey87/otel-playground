@@ -121,6 +121,12 @@ job "tracing-backend" {
         provider = "nomad"
       }
 
+      service {
+        name = "otel-collector-gateway-health"
+        port = "health"
+        provider = "nomad"
+      }
+
       resources {
         cpu    = 1000
         memory = 512
