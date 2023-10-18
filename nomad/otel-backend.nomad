@@ -111,12 +111,24 @@ job "tracing-backend" {
         image   = "otel/opentelemetry-collector-contrib:latest"
         ports   = ["gRPC1", "gRPC2", "health"]
         args    = ["--config=/etc/collector-gateway-config.yaml"]
-        volumes = ["local/otel/collector-gateway-config.yaml:/etc/collector-gateway-config.yaml"]
+        volumes = [
+          "local/otel/collector-gateway-config.yaml:/etc/collector-gateway-config.yaml",
+          "local/cert.pem:/etc/ssl/cert.pem",
+          "local/key.pem:/etc/ssl/key.pem",
+        ]
       }
 
       template {
         data        = file("files/otel/collector-gateway-config.yaml")
         destination = "local/otel/collector-gateway-config.yaml"
+      }
+      template {
+        data        = file("../ssl/cert.pem")
+        destination = "local/cert.pem"
+      }
+      template {
+        data        = file("../ssl/key.pem")
+        destination = "local/key.pem"
       }
 
       service {

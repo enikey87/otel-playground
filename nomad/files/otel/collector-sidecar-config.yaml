@@ -8,7 +8,8 @@ exporters:
   logging:
   otlp:
     tls:
-      insecure: true
+      # FIXME: Never ever do this in production. It's here only to simplify education.
+      insecure_skip_verify: true # Don't verify certificate because it's self-signed
 {{ range nomadService "otel-collector-gateway-gRPC2" }}
     endpoint: {{ .Address }}:{{ .Port }}
 {{ end }}

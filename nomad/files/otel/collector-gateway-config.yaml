@@ -5,7 +5,13 @@ receivers:
   otlp:
     protocols:
       grpc:
+        tls:
+          cert_file: /etc/ssl/cert.pem
+          key_file: /etc/ssl/key.pem
       http:
+        tls:
+          cert_file: /etc/ssl/cert.pem
+          key_file: /etc/ssl/key.pem
 
 exporters:
   logging:
