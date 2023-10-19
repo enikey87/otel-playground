@@ -11,9 +11,32 @@ sudo nomad agent -dev -bind 0.0.0.0 -network-interface='{{ GetDefaultInterfaces 
 # sudo nomad agent -dev
 ```
 
-### Collector sidecar
+or use [Hashiqube](https://hashiqube.com/#/)
+```
+git clone https://github.com/star3am/hashiqube.git
+cd hashiqube
+# it can take 15 - 30 minutes
+vagrant up --provision
+```
 
-Start a Open Telemetry sidecar service.
+### Vault
+
+To access vault running in Hashiqube see this [tutorial](https://github.com/avillela/hashiqube#vault-setup)
+```shell
+vagrant ssh
+# from vagrant
+cat /etc/vault/init.file | grep Root | rev | cut -d' ' -f1 | rev > /vagrant/hashicorp/token.txt
+# you can you this token to login from http://localhost:8200 on host
+cat /vagrant/hashicorp/token.txt
+# from host
+export VAULT_TOKEN=$(cat hashicorp/token.txt) && \
+rm hashicorp/token.txt
+export VAULT_ADDR=http://localhost:8200
+```
+
+### Collector sidecar (deamonset)
+
+Start Open Telemetry sidecar service.
 ```shell
 nomad job run otel-collector-sidecar.nomad
 ```
@@ -59,3 +82,6 @@ nomad job run tracegen.nomad
 
 - https://www.hashicorp.com/blog/a-kubernetes-user-s-guide-to-hashicorp-nomad
 - https://www.hashicorp.com/blog/nomad-service-discovery
+- https://github.com/avillela/hashiqube#quickstart
+- https://adri-v.medium.com/list/hashiqube-bfdcb9c84e10
+- https://storiesfromtheherd.com/just-in-time-nomad-running-the-opentelemetry-collector-on-hashicorp-nomad-with-hashiqube-4eaf009b8382
