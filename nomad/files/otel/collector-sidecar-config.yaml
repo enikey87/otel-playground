@@ -1,10 +1,9 @@
 extensions:
   health_check:
   basicauth/client:
-    # FIXME: store it in Vault
     client_auth:
-      username: otel-collector-edge
-      password: adidas
+      username: "{{ with secret "kv/data/otel-collector-gateway/auth" }}{{ .Data.data.user }}{{ end }}"
+      password: "{{ with secret "kv/data/otel-collector-gateway/auth" }}{{ .Data.data.password }}{{ end }}"
 
 receivers:
   otlp:
