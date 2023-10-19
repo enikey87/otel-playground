@@ -91,8 +91,9 @@ nomad job run tracegen.nomad
 
 #### Papers
 
+- https://adri-v.medium.com/list/hashiqube-bfdcb9c84e10
+- https://adri-v.medium.com/just-in-time-nomad-configuring-hashicorp-nomad-vault-integration-on-hashiqube-388c14cb070a
 - https://www.hashicorp.com/blog/a-kubernetes-user-s-guide-to-hashicorp-nomad
 - https://www.hashicorp.com/blog/nomad-service-discovery
 - https://github.com/avillela/hashiqube#quickstart
-- https://adri-v.medium.com/list/hashiqube-bfdcb9c84e10
 - https://storiesfromtheherd.com/just-in-time-nomad-running-the-opentelemetry-collector-on-hashicorp-nomad-with-hashiqube-4eaf009b8382
