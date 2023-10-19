@@ -48,8 +48,8 @@ job "tracing-backend" {
       }
 
       resources {
-        cpu    = 1000
-        memory = 2048
+        cpu    = 800
+        memory = 512
       }
     }
 
@@ -91,7 +91,7 @@ job "tracing-backend" {
       }
 
       resources {
-        cpu    = 1000
+        cpu    = 800
         memory = 256
       }
     } // task
@@ -151,8 +151,8 @@ job "tracing-backend" {
       }
 
       resources {
-        cpu    = 1000
-        memory = 512
+        cpu    = 800
+        memory = 256
       }
     } // task
   } // group
