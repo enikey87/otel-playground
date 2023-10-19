@@ -2,6 +2,10 @@ job "tracegen-batch-job" {
   datacenters = ["dc1"]
   type = "batch"
 
+  meta {
+    run_uuid = "${uuidv4()}" # force task to execute every time it's submitted to nomad
+  }
+
   group "tracegen-group" {
     count = 1
 
