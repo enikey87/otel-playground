@@ -13,15 +13,18 @@ sudo nomad agent -dev -bind 0.0.0.0 -network-interface='{{ GetDefaultInterfaces 
 
 or use [Hashiqube](https://hashiqube.com/#/)
 ```
-git clone https://github.com/star3am/hashiqube.git
+sudo apt-get install virtualbox
+# original https://github.com/star3am/hashiqube.git has no nomad/vault integration out of box
+git clone https://github.com/avillela/hashiqube.git
 cd hashiqube
+git checkout main
 # it can take 15 - 30 minutes
-vagrant up --provision
+vagrant up
 ```
 
 ### Vault
 
-To access vault running in Hashiqube see this [tutorial](https://github.com/avillela/hashiqube#vault-setup)
+Setup access to vault running in Hashiqube ([details](https://github.com/avillela/hashiqube#vault-setup))
 ```shell
 vagrant ssh
 # from vagrant
@@ -32,6 +35,14 @@ cat /vagrant/hashicorp/token.txt
 export VAULT_TOKEN=$(cat hashicorp/token.txt) && \
 rm hashicorp/token.txt
 export VAULT_ADDR=http://localhost:8200
+```
+
+Put secrets into Vault
+```shell
+vault kv put kv/otel-collector-gateway/auth user="otel-collector-edge" password="adidas"
+# test it can be read
+# vault kv get -mount="kv" "otel-collector-gateway/auth"
+vault kv get "kv/otel-collector-gateway/auth"
 ```
 
 ### Collector sidecar (deamonset)
