@@ -38,13 +38,11 @@ job "tracing-backend" {
       service {
         name     = "jaeger-gRPC2"
         port     = "jaeger-gRPC2"
-        provider = "nomad"
       }
 
       service {
         name     = "jaeger-ui"
         port     = "jaeger-ui"
-        provider = "nomad"
       }
 
       resources {
@@ -70,7 +68,6 @@ job "tracing-backend" {
       service {
         name     = "jaeger-ui-gateway"
         port     = "jaeger-ui-gateway"
-        provider = "nomad"
       }
 
       template {
@@ -135,19 +132,16 @@ job "tracing-backend" {
       service {
         name = "otel-collector-gateway-gRPC1"
         port = "otel-collector-gateway-gRPC1"
-        provider = "nomad"
       }
 
       service {
         name = "otel-collector-gateway-gRPC2"
         port = "otel-collector-gateway-gRPC2"
-        provider = "nomad"
       }
 
       service {
         name = "otel-collector-gateway-health"
         port = "otel-collector-gateway-health"
-        provider = "nomad"
       }
 
       resources {

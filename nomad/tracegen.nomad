@@ -19,7 +19,7 @@ job "tracegen-batch-job" {
       # FIXME: it's not affecting anything because tracegen utility doesn't respect OTEL_EXPORTER_OTLP_ENDPOINT
       template {
         data        = <<EOH
-{{ range nomadService "otel-collector-sidecar-gRPC2" }}
+{{ range service "otel-collector-sidecar-gRPC2" }}
 OTEL_EXPORTER_OTLP_ENDPOINT="{{ .Address }}:{{ .Port }}"
 {{ end }}
 EOH

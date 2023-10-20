@@ -35,13 +35,11 @@ job "otel-collector-sidecar" {
       service {
         name = "otel-collector-sidecar-gRPC1"
         port = "gRPC1"
-        provider = "nomad"
       }
 
       service {
         name = "otel-collector-sidecar-gRPC2"
         port = "gRPC2"
-        provider = "nomad"
       }
     } // task
   } // group
