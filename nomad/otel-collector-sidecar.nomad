@@ -7,8 +7,6 @@ job "otel-collector-sidecar" {
     count = 1
 
     network {
-      mode = "host"
-
       port "gRPC1" {
         static = 4318
       }
