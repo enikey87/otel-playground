@@ -16,7 +16,6 @@ job "tracegen-batch-job" {
         image = "gorecode/tracegen-job:latest"
       }
 
-      # FIXME: it's not affecting anything because tracegen utility doesn't respect OTEL_EXPORTER_OTLP_ENDPOINT
       template {
         data        = <<EOH
 {{ range service "otel-collector-sidecar-gRPC2" }}
