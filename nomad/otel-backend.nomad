@@ -83,7 +83,9 @@ job "tracing-backend" {
         destination = "local/nginx.conf"
       }
       template {
-        data        = file("files/jaeger/nginx-htpasswd")
+        data        = <<EOH
+{{ with secret "kv/data/jaeger-ui/auth" }}{{ .Data.data.username }}:{{ .Data.data.bcrypt_password }}{{ end }}
+EOH
         destination = "local/nginx-htpasswd"
       }
 
