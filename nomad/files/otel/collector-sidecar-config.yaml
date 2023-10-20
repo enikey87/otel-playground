@@ -1,9 +1,7 @@
 extensions:
   health_check:
-  basicauth/client:
-    client_auth:
-      username: "{{ with secret "kv/data/otel-collector-gateway/auth" }}{{ .Data.data.user }}{{ end }}"
-      password: "{{ with secret "kv/data/otel-collector-gateway/auth" }}{{ .Data.data.password }}{{ end }}"
+  bearertokenauth:
+    token: "{{ with secret "kv/data/otel-collector-gateway/auth" }}{{ .Data.data.token }}{{ end }}"
 
 receivers:
   otlp:
@@ -15,7 +13,7 @@ exporters:
   logging:
   otlp:
     auth:
-      authenticator: basicauth/client
+      authenticator: bearertokenauth
     tls:
       # FIXME: Never ever do this in production. It's here only to simplify education.
       insecure_skip_verify: true # Don't verify certificate because it's self-signed
@@ -27,7 +25,7 @@ processors:
   batch:
 
 service:
-  extensions: [basicauth/client]
+  extensions: [health_check, bearertokenauth]
   pipelines:
     traces:
       receivers: [otlp]

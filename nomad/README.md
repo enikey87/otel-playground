@@ -41,10 +41,9 @@ Put secrets into Vault
 ```shell
 # user:adidas for jaeger-ui
 vault kv put kv/jaeger-ui/auth username="user" bcrypt_password="\$apr1\$h.yv.W30\$X0QI1mK8WU6GeY..iCFcj/"
-
-vault kv put kv/otel-collector-gateway/auth user="otel-collector-edge" password="adidas"
-# test it can be read
-# vault kv get -mount="kv" "otel-collector-gateway/auth"
+# secret token to access collector-gateway from outside
+vault kv put kv/otel-collector-gateway/auth token="NRNZaAItflRjZZyLqtNnBgubyjgmLShLlAehqileeMromhzjhLNxuoIauWnbKmxbOObathqLGqUFbNqfKKxicEfSyBicvvgjHWHgCkkjeFwmKJFrXWTrJhtWusjgHAangUSZsbDQEAvXPxXZqPWCMSmokqoJDyuslVUtUvFPuMVcgmPCzHXNVArwJMUlaBhxFjfWGJnTUmcQWMzTidAbmHgxhsRzolEawgGZXkcjwYKUhPQbshTfeuwUyRAXelJO"
+# ensure that token can be read
 vault kv get "kv/otel-collector-gateway/auth"
 ```
 

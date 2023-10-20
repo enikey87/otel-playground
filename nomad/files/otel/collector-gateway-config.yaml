@@ -1,25 +1,24 @@
 extensions:
   health_check:
-  basicauth/server:
-    htpasswd:
-      file: /etc/otel-collector-gateway-htpasswd
+  bearertokenauth:
+    token: "{{ with secret "kv/data/otel-collector-gateway/auth" }}{{ .Data.data.token }}{{ end }}"
 
 receivers:
-  otlp/basicAuth:
+  otlp/token:
     protocols:
       grpc:
         tls:
           cert_file: /etc/ssl/cert.pem
           key_file: /etc/ssl/key.pem
         auth:
-          authenticator: basicauth/server
+          authenticator: bearertokenauth
 
       http:
         tls:
           cert_file: /etc/ssl/cert.pem
           key_file: /etc/ssl/key.pem
         auth:
-          authenticator: basicauth/server
+          authenticator: bearertokenauth
 
 exporters:
   logging:
@@ -32,9 +31,9 @@ processors:
   batch:
 
 service:
-  extensions: [health_check, basicauth/server]
+  extensions: [health_check, bearertokenauth]
   pipelines:
     traces:
-      receivers: [otlp/basicAuth]
+      receivers: [otlp/token]
       processors: [batch]
-      exporters: [logging, otlp/jaeger]
+      exporters: [otlp/jaeger]
