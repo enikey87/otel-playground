@@ -3,6 +3,58 @@ job "tracing-backend" {
   namespace   = "default"
   type        = "service"
 
+  group "jaeger-elasticsearch" {
+    count = 1
+
+    network {
+      port "http" {
+        to = 9200
+      }
+
+      port "transport" {
+        to = 9300
+      }
+    }
+
+    ephemeral_disk {
+      size = 4096
+    }
+
+    task "jaeger-elasticsearch" {
+      driver = "docker"
+
+      config {
+        image = "docker.elastic.co/elasticsearch/elasticsearch:7.17.14"
+        ports = ["http", "transport"]
+      }
+
+      env = {
+        "xpack.security.enabled" = "false",
+        "discovery.type"         = "single-node",
+        "path.data"              = "/alloc/data/",
+        "path.logs"              = "/alloc/logs/"
+      }
+
+      resources {
+        cpu    = 2000
+        memory = 3000
+      }
+
+      service {
+        name = "jaeger-elasticsearch"
+        tags = ["elasticsearch"]
+        port = "http"
+
+        check {
+          type     = "http"
+          path     = "/"
+          interval = "10s"
+          timeout  = "2s"
+        }
+      }
+    }
+  }
+
   group "tracing-backend" {
     count = 1
 
@@ -33,6 +85,23 @@ job "tracing-backend" {
       config {
         image = "jaegertracing/all-in-one:latest"
         ports = ["jaeger-gRPC2", "jaeger-ui"]
+      }
+
+      template {
+        data        = <<EOH
+{{ range service "jaeger-elasticsearch" }}
+ES_SERVER_URLS="http://{{ .Address }}:{{ .Port }}"
+{{ else }}
+ES_SERVER_URLS="http://127.0.0.1:65535"
+{{ end }}
+EOH
+        destination = "local/service.env"
+        env         = true
+        change_mode = "restart"
+      }
+
+      env {
+        SPAN_STORAGE_TYPE = "elasticsearch"
       }
 
       service {
