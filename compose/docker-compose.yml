@@ -13,7 +13,7 @@ services:
     volumes:
       - ./etc/nginx.conf:/etc/nginx/nginx.conf
       - ./etc/nginx-htpasswd:/etc/nginx/htpasswd
-      - ./ssl:/etc/ssl
+      - ../ssl:/etc/ssl
     depends_on:
       - jaeger
 
@@ -27,11 +27,11 @@ services:
     command: ["--config=/etc/otel-collector-gateway-config.yaml"]
     env_file:
       - secrets/otel-collector-gateway.env
-      - ssl/.env
+      - ../ssl/.env
     volumes:
       - ./etc/otel-collector-gateway-config.yaml:/etc/otel-collector-gateway-config.yaml
       - ./etc/otel-collector-gateway-htpasswd:/etc/otel-collector-gateway-htpasswd
-      - ./ssl:/etc/ssl
+      - ../ssl:/etc/ssl
     depends_on:
       - jaeger
 
@@ -40,7 +40,7 @@ services:
     restart: always
     env_file:
       - secrets/otel-collector-sidecar.env
-      - ssl/.env
+      - ../ssl/.env
     ports:
       - "4317:4317"   # OTLP gRPC receiver over HTTP/2
       - "4318:4318"   # OTLP gRPC receiver over HTTP/1.1

@@ -1,20 +1,16 @@
 job "otel-collector-sidecar" {
   datacenters = ["dc1"]
   namespace = "default"
-  type = "service"
+  type = "system"
 
   group "otel-collector-sidecar" {
     count = 1
 
     network {
-      mode = "host"
-
       port "gRPC1" {
-        to = 4318
         static = 4318
       }
       port "gRPC2" {
-        to = 4317
         static = 4317
       }
     }
@@ -33,19 +29,16 @@ job "otel-collector-sidecar" {
         data        = file("files/otel/collector-sidecar-config.yaml")
         destination = "local/otel/collector-sidecar-config.yaml"
       }
-#
-#      service {
-#        name = "otel-collector-sidecar"
-#        port = "gRPC1"
-#        provider = "nomad"
-#
-#        check {
-#          name = "host-check"
-#          type = "tcp"
-#          interval = "600s"
-#          timeout = "10s"
-#        }
-#      }
+
+      service {
+        name = "otel-collector-sidecar-gRPC1"
+        port = "gRPC1"
+      }
+
+      service {
+        name = "otel-collector-sidecar-gRPC2"
+        port = "gRPC2"
+      }
     } // task
   } // group
 } // job

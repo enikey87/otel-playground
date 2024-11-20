@@ -1,0 +1,39 @@
+extensions:
+  health_check:
+  bearertokenauth:
+    token: "{{ with secret "kv/data/otel-collector-gateway/auth" }}{{ .Data.data.token }}{{ end }}"
+
+receivers:
+  otlp/token:
+    protocols:
+      grpc:
+        tls:
+          cert_file: /etc/ssl/cert.pem
+          key_file: /etc/ssl/key.pem
+        auth:
+          authenticator: bearertokenauth
+
+      http:
+        tls:
+          cert_file: /etc/ssl/cert.pem
+          key_file: /etc/ssl/key.pem
+        auth:
+          authenticator: bearertokenauth
+
+exporters:
+  logging:
+  otlp/jaeger:
+    endpoint: {{ env "NOMAD_ADDR_jaeger_gRPC2" }}
+    tls:
+      insecure: true
+
+processors:
+  batch:
+
+service:
+  extensions: [health_check, bearertokenauth]
+  pipelines:
+    traces:
+      receivers: [otlp/token]
+      processors: [batch]
+      exporters: [otlp/jaeger]
