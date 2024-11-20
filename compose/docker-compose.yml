@@ -1,9 +1,21 @@
 version: '3'
 
 services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+
   jaeger:
     image: jaegertracing/all-in-one:latest
     restart: always
+    environment:
+      - SPAN_STORAGE_TYPE=elasticsearch
+      - ES_SERVER_URLS=http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
 
   jaeger-ui-nginx-proxy:
     image: nginx:alpine
