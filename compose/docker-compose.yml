@@ -15,6 +15,7 @@ services:
       - SPAN_STORAGE_TYPE=elasticsearch
       - ES_SERVER_URLS=http://elasticsearch:9200
     command:
+      # https://github.com/jaegertracing/jaeger/issues/1051
       # This was an attempt to solve memory overload when loading giant traces from storage,
       # but unfortunately it won't help. Looks like it only affects pagination.
       - "--es.max-doc-count=1000"
